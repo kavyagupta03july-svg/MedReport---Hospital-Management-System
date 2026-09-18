@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
-import { Activity, ShieldCheck, Stethoscope, Lock, Mail, User as UserIcon, AlertCircle, Eye, EyeOff, Moon, Sun } from 'lucide-react';
+import { Activity, ShieldCheck, Stethoscope, Lock, Mail, User as UserIcon, AlertCircle, Eye, EyeOff, Moon, Sun, Key } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Role } from '../types';
 
@@ -16,6 +16,7 @@ export const Login: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [adminCode, setAdminCode] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -40,7 +41,17 @@ export const Login: React.FC = () => {
       }
     } else {
       if (!name || !email || !password) return;
-      const result = await register(role, name, email, password);
+      if (role === 'admin') {
+        if (!adminCode.trim()) {
+          setError('Admin Security Code is required to create an Administrator account.');
+          return;
+        }
+        if (adminCode.trim() !== '778675') {
+          setError('Invalid Admin Security Code. You must enter code 778675 to create an Administrator account.');
+          return;
+        }
+      }
+      const result = await register(role, name, email, password, adminCode);
       if (!result.success) {
         setError(result.error || 'Registration failed.');
       } else {
@@ -48,6 +59,7 @@ export const Login: React.FC = () => {
         setIsLoginView(true);
         setPassword('');
         setName('');
+        setAdminCode('');
       }
     }
   };
@@ -69,7 +81,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900/50 dark:bg-slate-900 transition-colors flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors flex flex-col">
       <div className="absolute top-4 right-4 sm:top-6 sm:right-8">
         <button
           onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
@@ -90,35 +102,35 @@ export const Login: React.FC = () => {
         <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
           MedReport HMS
         </h2>
-        <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-300 dark:text-slate-400">
+        <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
           Secure Role-Based Access Control
         </p>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white dark:bg-slate-800 py-8 px-4 shadow-xl shadow-slate-200/50 dark:shadow-none sm:rounded-2xl sm:px-10 border border-slate-100 dark:border-slate-700">
+        <div className="bg-white dark:bg-slate-900 py-8 px-4 shadow-xl shadow-slate-200/50 dark:shadow-none sm:rounded-2xl sm:px-10 border border-slate-100 dark:border-slate-800">
           
           {error && (
-            <div className="mb-6 p-3 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm flex items-start">
+            <div className="mb-6 p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/50 text-red-700 dark:text-red-400 rounded-xl text-sm flex items-start">
               <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
           
           {successMsg && (
-            <div className="mb-6 p-3 bg-green-50 border border-green-200 text-green-800 rounded-xl text-sm flex items-start">
+            <div className="mb-6 p-3 bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900/50 text-green-800 dark:text-green-400 rounded-xl text-sm flex items-start">
               <ShieldCheck className="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" />
               <span>{successMsg}</span>
             </div>
           )}
 
-          <div className="flex p-1 bg-slate-100 dark:bg-slate-700/50 rounded-xl mb-6">
+          <div className="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl mb-6">
             <button
               type="button"
               onClick={() => setRole('medical')}
               className={cn(
                 "flex-1 flex justify-center items-center py-2.5 text-sm font-medium rounded-lg transition-all",
-                role === 'medical' ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+                role === 'medical' ? "bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
               )}
             >
               <Stethoscope className="w-4 h-4 mr-2" />
@@ -129,7 +141,7 @@ export const Login: React.FC = () => {
               onClick={() => setRole('admin')}
               className={cn(
                 "flex-1 flex justify-center items-center py-2.5 text-sm font-medium rounded-lg transition-all",
-                role === 'admin' ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+                role === 'admin' ? "bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
               )}
             >
               <ShieldCheck className="w-4 h-4 mr-2" />
@@ -143,15 +155,36 @@ export const Login: React.FC = () => {
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <UserIcon className="h-5 w-5 text-slate-400 dark:text-slate-500 dark:text-slate-400" />
+                    <UserIcon className="h-5 w-5 text-slate-400 dark:text-slate-500" />
                   </div>
                   <input
                     type="text"
                     required={!isLoginView}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors text-slate-900 dark:text-white"
+                    className="block w-full pl-10 pr-3 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600"
                     placeholder="John Doe"
+                  />
+                </div>
+              </div>
+            )}
+
+            {!isLoginView && role === 'admin' && (
+              <div>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
+                  Admin Security Code
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Key className="h-5 w-5 text-slate-400 dark:text-slate-500" />
+                  </div>
+                  <input
+                    type="password"
+                    required
+                    value={adminCode}
+                    onChange={(e) => setAdminCode(e.target.value)}
+                    className="block w-full pl-10 pr-3 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600"
+                    placeholder="Enter security code"
                   />
                 </div>
               </div>
@@ -161,14 +194,14 @@ export const Login: React.FC = () => {
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-slate-400 dark:text-slate-500 dark:text-slate-400" />
+                  <Mail className="h-5 w-5 text-slate-400 dark:text-slate-500" />
                 </div>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full pl-10 pr-3 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors text-slate-900 dark:text-white"
+                  className="block w-full pl-10 pr-3 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600"
                   placeholder="john@hospital.com"
                 />
               </div>
@@ -178,20 +211,20 @@ export const Login: React.FC = () => {
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Password</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-slate-400 dark:text-slate-500 dark:text-slate-400" />
+                  <Lock className="h-5 w-5 text-slate-400 dark:text-slate-500" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full pl-10 pr-10 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors text-slate-900 dark:text-white"
+                  className="block w-full pl-10 pr-10 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-300 focus:outline-none"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 focus:outline-none"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -202,7 +235,7 @@ export const Login: React.FC = () => {
               </div>
               {isLoginView && (
                 <div className="mt-2 flex justify-end">
-                  <button type="button" onClick={handleResetPassword} className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                  <button type="button" onClick={handleResetPassword} className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
                     Forgot Password?
                   </button>
                 </div>
@@ -217,7 +250,7 @@ export const Login: React.FC = () => {
             </button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-300 dark:text-slate-400">
+          <div className="mt-6 text-center text-sm text-slate-600 dark:text-slate-400">
             {isLoginView ? "Don't have an account? " : "Already have an account? "}
             <button 
               type="button" 
@@ -226,15 +259,16 @@ export const Login: React.FC = () => {
                 setError(null);
                 setSuccessMsg(null);
                 setPassword('');
+                setAdminCode('');
               }}
-              className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+              className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
             >
               {isLoginView ? 'Create one now' : 'Sign in here'}
             </button>
           </div>
           
-          <div className="mt-8 border-t border-slate-200 dark:border-slate-700 pt-6">
-            <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-4 text-sm text-blue-800 dark:text-blue-300 border border-blue-100 dark:border-blue-800/50">
+          <div className="mt-8 border-t border-slate-200 dark:border-slate-800 pt-6">
+            <div className="bg-blue-50 dark:bg-blue-950/40 rounded-lg p-4 text-sm text-blue-800 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50">
               <p className="font-semibold mb-1">Quality Goal: Better Reporting</p>
               <p>Login to access seamless data analytics, improving operational efficiency and clinical decision-making.</p>
             </div>
@@ -243,17 +277,17 @@ export const Login: React.FC = () => {
       </div>
       </div>
 
-      <footer className="py-6 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 dark:border-slate-800">
+      <footer className="py-6 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm text-slate-500 dark:text-slate-400">
             <div>
               &copy; {new Date().getFullYear()} MedReport HMS. All rights reserved.
             </div>
             <div className="flex space-x-6">
-              <a href="#" className="hover:text-blue-600 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-blue-600 transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-blue-600 transition-colors">Help Center</a>
-              <a href="#" className="hover:text-blue-600 transition-colors">Contact Support</a>
+              <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Service</a>
+              <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Help Center</a>
+              <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact Support</a>
             </div>
           </div>
         </div>

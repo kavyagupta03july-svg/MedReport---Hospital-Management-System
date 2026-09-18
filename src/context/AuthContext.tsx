@@ -15,7 +15,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  register: (role: Role, name: string, email: string, password: string) => Promise<{ success: boolean; error?: string }>;
+  register: (role: Role, name: string, email: string, password: string, adminCode?: string) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
   deleteAccount: (password: string) => Promise<{ success: boolean; error?: string }>;
@@ -52,8 +52,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => unsubscribe();
   }, []);
 
-  const register = async (role: Role, name: string, email: string, password: string) => {
+  const register = async (role: Role, name: string, email: string, password: string, adminCode?: string) => {
     try {
+      if (role === 'admin' && adminCode?.trim() !== '778675') {
+        return { success: false, error: 'Invalid Admin Security Code. You must enter code 778675 to create an Administrator account.' };
+      }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
       
