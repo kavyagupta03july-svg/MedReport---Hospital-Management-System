@@ -12,6 +12,9 @@ A comprehensive, secure, and efficient web-based platform designed to streamline
 *   **Appointment Scheduling**: Real-time booking, cancellations, and doctor availability tracking.
 *   **Billing & Invoicing**: Automated invoice generation, insurance processing, and payment tracking.
 
+# Dashboard Overview
+<img width="1364" height="651" alt="image" src="https://github.com/user-attachments/assets/9d63aaf7-ab87-46f3-a1d0-b6250cbf750f" />
+
 ## 🛠️ Built With
 
 *   **Frontend**: *[e.g., React.js / Vue.js / HTML5 / Tailwind CSS]*
