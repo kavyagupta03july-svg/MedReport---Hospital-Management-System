@@ -1,0 +1,8 @@
+{
+  "name": "MedReport - Hospital Management System",
+  "description": "Hospital Management System with real-time reporting, PDF/Excel exports, and role-based access control.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
