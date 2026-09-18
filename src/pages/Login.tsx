@@ -112,32 +112,30 @@ export const Login: React.FC = () => {
             </div>
           )}
 
-          {!isLoginView && (
-            <div className="flex p-1 bg-slate-100 dark:bg-slate-700/50 rounded-xl mb-6">
-              <button
-                type="button"
-                onClick={() => setRole('medical')}
-                className={cn(
-                  "flex-1 flex justify-center items-center py-2.5 text-sm font-medium rounded-lg transition-all",
-                  role === 'medical' ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
-                )}
-              >
-                <Stethoscope className="w-4 h-4 mr-2" />
-                Medical Staff
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole('admin')}
-                className={cn(
-                  "flex-1 flex justify-center items-center py-2.5 text-sm font-medium rounded-lg transition-all",
-                  role === 'admin' ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
-                )}
-              >
-                <ShieldCheck className="w-4 h-4 mr-2" />
-                Administrator
-              </button>
-            </div>
-          )}
+          <div className="flex p-1 bg-slate-100 dark:bg-slate-700/50 rounded-xl mb-6">
+            <button
+              type="button"
+              onClick={() => setRole('medical')}
+              className={cn(
+                "flex-1 flex justify-center items-center py-2.5 text-sm font-medium rounded-lg transition-all",
+                role === 'medical' ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+              )}
+            >
+              <Stethoscope className="w-4 h-4 mr-2" />
+              Medical Staff
+            </button>
+            <button
+              type="button"
+              onClick={() => setRole('admin')}
+              className={cn(
+                "flex-1 flex justify-center items-center py-2.5 text-sm font-medium rounded-lg transition-all",
+                role === 'admin' ? "bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm" : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+              )}
+            >
+              <ShieldCheck className="w-4 h-4 mr-2" />
+              Administrator
+            </button>
+          </div>
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             {!isLoginView && (
