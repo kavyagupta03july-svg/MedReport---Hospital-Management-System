@@ -76,6 +76,18 @@ Follow these steps to get your development environment running:
 *   Strict Role-Based Access Control (RBAC) to ensure compliance with healthcare privacy regulations.
 *   Secure JWT token handling for API authorization.
 
+## Modules
+
+MedReport includes modules for:
+
+- User Authentication
+- Admin Registration
+- Dashboard
+- Patient Management
+- Doctor Management
+- Appointment Management
+- Medical Reports
+
 ## 🤝 Contributing
 
 Contributions are welcome! To contribute:
