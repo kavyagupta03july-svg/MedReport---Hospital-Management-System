@@ -155,33 +155,33 @@ export const Dashboard: React.FC = () => {
 
       {showEdit && user?.role === 'admin' && (
         <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 mb-6 animate-in slide-in-from-top-4">
-          <h3 className="text-lg font-semibold mb-4">Edit Dashboard KPIs</h3>
+          <h3 className="text-lg font-semibold mb-4 dark:text-white">Edit Dashboard KPIs</h3>
           <form onSubmit={handleSave} className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Total Patients</label>
-              <input type="number" className="w-full px-4 py-2 border rounded-xl" value={editData.totalPatients} onChange={e => setEditData({...editData, totalPatients: e.target.value === '' ? '' : parseInt(e.target.value) || 0})} />
+              <input type="number" className="w-full px-4 py-2 border dark:border-slate-700 bg-white dark:bg-slate-900 dark:text-white rounded-xl" value={editData.totalPatients} onChange={e => setEditData({...editData, totalPatients: e.target.value === '' ? '' : parseInt(e.target.value) || 0})} />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Critical Condition</label>
-              <input type="number" className="w-full px-4 py-2 border rounded-xl" value={editData.criticalCondition} onChange={e => setEditData({...editData, criticalCondition: e.target.value === '' ? '' : parseInt(e.target.value) || 0})} />
+              <input type="number" className="w-full px-4 py-2 border dark:border-slate-700 bg-white dark:bg-slate-900 dark:text-white rounded-xl" value={editData.criticalCondition} onChange={e => setEditData({...editData, criticalCondition: e.target.value === '' ? '' : parseInt(e.target.value) || 0})} />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Available Beds</label>
-              <input type="number" className="w-full px-4 py-2 border rounded-xl" value={editData.availableBeds} onChange={e => setEditData({...editData, availableBeds: e.target.value === '' ? '' : parseInt(e.target.value) || 0})} />
+              <input type="number" className="w-full px-4 py-2 border dark:border-slate-700 bg-white dark:bg-slate-900 dark:text-white rounded-xl" value={editData.availableBeds} onChange={e => setEditData({...editData, availableBeds: e.target.value === '' ? '' : parseInt(e.target.value) || 0})} />
             </div>
             <div>
               <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Doctors on Duty</label>
-              <input type="number" className="w-full px-4 py-2 border rounded-xl" value={editData.doctorsOnDuty} onChange={e => setEditData({...editData, doctorsOnDuty: e.target.value === '' ? '' : parseInt(e.target.value) || 0})} />
+              <input type="number" className="w-full px-4 py-2 border dark:border-slate-700 bg-white dark:bg-slate-900 dark:text-white rounded-xl" value={editData.doctorsOnDuty} onChange={e => setEditData({...editData, doctorsOnDuty: e.target.value === '' ? '' : parseInt(e.target.value) || 0})} />
             </div>
             
             <div className="col-span-2 md:col-span-4 mt-2">
-              <h4 className="text-sm font-semibold text-slate-700 mb-3">Admissions vs Discharges (7 Days)</h4>
+              <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3">Admissions vs Discharges (7 Days)</h4>
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-3">
                 {editData.admissionsTrend.map((day, index) => (
                   <div key={index} className="border border-slate-200 dark:border-slate-700 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 shadow-sm">
                     <input 
                       type="text" 
-                      className="w-full text-sm font-medium mb-2 bg-transparent border-b border-slate-300 pb-1 text-slate-700 focus:outline-none focus:border-blue-500" 
+                      className="w-full text-sm font-medium mb-2 bg-transparent border-b border-slate-300 dark:border-slate-600 pb-1 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-blue-500" 
                       value={day.date} 
                       onChange={(e) => {
                          const newTrend = [...editData.admissionsTrend];
@@ -194,7 +194,7 @@ export const Dashboard: React.FC = () => {
                         <label className="block text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Admissions</label>
                         <input 
                           type="number" 
-                          className="w-full px-2 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-1 focus:ring-blue-500" 
+                          className="w-full px-2 py-1.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-1 focus:ring-blue-500" 
                           value={day.admissions} 
                           onChange={(e) => {
                              const newTrend = [...editData.admissionsTrend];
@@ -207,7 +207,7 @@ export const Dashboard: React.FC = () => {
                         <label className="block text-[10px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Discharges</label>
                         <input 
                           type="number" 
-                          className="w-full px-2 py-1.5 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-1 focus:ring-blue-500" 
+                          className="w-full px-2 py-1.5 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-lg text-sm text-slate-900 dark:text-white focus:ring-1 focus:ring-blue-500" 
                           value={day.discharges} 
                           onChange={(e) => {
                              const newTrend = [...editData.admissionsTrend];
