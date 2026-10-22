@@ -17,6 +17,7 @@ import { Inventory } from './pages/Inventory';
 import { Reports } from './pages/Reports';
 import { DoctorDetails } from './pages/DoctorDetails';
 import { AuditLogs } from './pages/AuditLogs';
+import { OfflineIndicator } from './components/OfflineIndicator';
 
 const DynamicTitle: React.FC = () => {
   const location = useLocation();
@@ -72,6 +73,7 @@ export default function App() {
         <HospitalProvider>
           <Router>
             <DynamicTitle />
+            <OfflineIndicator />
             <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Activity, ShieldCheck, Stethoscope, Lock, Mail, User as UserIcon, AlertCircle, Eye, EyeOff, Moon, Sun, Key } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Role } from '../types';
+import { PWAInstallButton } from '../components/PWAInstallButton';
 
 export const Login: React.FC = () => {
   const { login, register, resetPassword, user } = useAuth();
@@ -82,7 +83,8 @@ export const Login: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors flex flex-col">
-      <div className="absolute top-4 right-4 sm:top-6 sm:right-8">
+      <div className="absolute top-4 right-4 sm:top-6 sm:right-8 flex items-center gap-3">
+        <PWAInstallButton />
         <button
           onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
           className="p-2 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors focus:outline-none"

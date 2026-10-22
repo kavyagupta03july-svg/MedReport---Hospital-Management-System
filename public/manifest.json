@@ -1,0 +1,35 @@
+{
+  "id": "/",
+  "name": "MedReport – Hospital Management System",
+  "short_name": "MedReport",
+  "description": "MedReport is a robust Hospital Management System offering real-time analytics, patient directory tracking, and advanced medical reporting.",
+  "theme_color": "#2563eb",
+  "background_color": "#0f172a",
+  "display": "standalone",
+  "orientation": "any",
+  "start_url": "/",
+  "scope": "/",
+  "dir": "ltr",
+  "lang": "en-US",
+  "categories": ["medical", "health", "productivity"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

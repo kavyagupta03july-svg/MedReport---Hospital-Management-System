@@ -5,6 +5,7 @@ import { useTheme } from '../context/ThemeContext';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users, FileText, Settings, LogOut, Activity, Calendar, TestTube, MessageSquare, Stethoscope, CreditCard, Package, Menu, ShieldAlert, Bell, Sun, Moon } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { PWAInstallButton } from './PWAInstallButton';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, logout } = useAuth();
@@ -155,6 +156,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </h1>
           </div>
           <div className="flex items-center space-x-4">
+             <PWAInstallButton />
              <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                 <span className="w-2 h-2 mr-1.5 bg-green-500 rounded-full animate-pulse"></span>
                 Live System
